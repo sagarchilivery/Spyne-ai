@@ -10,10 +10,16 @@ import cloudinary from "../utils/cloudinaryConfig.js";
 import Request from "../models/request.model.js";
 import { isValidObjectId } from "mongoose";
 
+// const connection = {
+//   host: process.env.REDIS_HOST || "127.0.0.1",
+//   port: process.env.REDIS_PORT ? parseInt(process.env.REDIS_PORT) : 6379,
+// };
+
 const connection = {
-  host: process.env.REDIS_HOST || "127.0.0.1",
+  host: process.env.REDIS_HOST || "redis", // Redis service name
   port: process.env.REDIS_PORT ? parseInt(process.env.REDIS_PORT) : 6379,
 };
+
 
 const requestQueue = new Queue("requestQueue", { connection });
 
