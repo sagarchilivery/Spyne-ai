@@ -50,15 +50,12 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            cd /home/ubuntu || exit 1
-            if [ ! -d "Spyne-ai" ]; then
-              git clone https://github.com/sagarchilivery/Spyne-ai.git
-            else
-              cd Spyne-ai
-              git pull origin main  # Pull latest changes
-            fi
-            cd Spyne-ai
-            ls -la  # Debugging: Check repo files
+            cd /home/ubuntu/Spyne-ai
+            echo "MONGO_URI=${{ secrets.MONGO_URI }}" > .env
+            echo "PORT=${{ secrets.PORT }}" >> .env
+            echo "CLOUDINARY_CLOUD_NAME=${{ secrets.CLOUDINARY_CLOUD_NAME }}" >> .env
+            echo "CLOUDINARY_API_KEY=${{ secrets.CLOUDINARY_API_KEY }}" >> .env
+            echo "CLOUDINARY_API_SECRET=${{ secrets.CLOUDINARY_API_SECRET }}" >> .env
             sudo docker-compose down || true
             sudo docker-compose pull
             sudo docker-compose up -d
