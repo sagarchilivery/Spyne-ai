@@ -52,12 +52,12 @@ jobs:
           script: |
             cd /home/ubuntu || exit 1
             if [ ! -d "spyne-ai" ]; then
-              git clone https://github.com/sagarchilivery/Spyne-ai.git spyne-ai
+              git clone https://github.com/sagarchilivery/Spyne-ai.git
             else
-              cd spyne-ai
+              cd Spyne-ai
               git pull origin main  # Pull latest changes
             fi
-            cd spyne-ai
+            cd Spyne-ai
             ls -la  # Debugging: Check repo files
             sudo docker-compose down || true
             sudo docker-compose pull
