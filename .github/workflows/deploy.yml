@@ -43,7 +43,7 @@ jobs:
       - name: Verify the pushed docker image
         run: docker pull sagar246/spyne-ai:latest
 
-      - name: Deploy to EC2 
+      - name: Deploy to EC2
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_HOST }}

@@ -25,6 +25,7 @@ app.get("/api/v1/health", (req, res) => {
 });
 app.use("/api/v1", myRouter);
 
+console.log("process.env.MONGO_URI: ", process.env.MONGO_URI);
 mongoose
   .connect(process.env.MONGO_URI, {
     dbName: process.env.DB_NAME,
