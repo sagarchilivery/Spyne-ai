@@ -50,25 +50,12 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            set -e  # Stop on errors
-            sudo mkdir -p /home/ubuntu/Spyne-ai
-            sudo chown ubuntu:ubuntu /home/ubuntu/Spyne-ai
             cd /home/ubuntu/Spyne-ai
-
-            # Ensure docker-compose.yml exists
-            if [ ! -f "docker-compose.yml" ]; then
-              echo "Error: docker-compose.yml not found!"
-              exit 1
-            fi
-
-            # Create .env file
             echo "MONGO_URI=${{ secrets.MONGO_URI }}" > .env
             echo "PORT=${{ secrets.PORT }}" >> .env
             echo "CLOUDINARY_CLOUD_NAME=${{ secrets.CLOUDINARY_CLOUD_NAME }}" >> .env
             echo "CLOUDINARY_API_KEY=${{ secrets.CLOUDINARY_API_KEY }}" >> .env
             echo "CLOUDINARY_API_SECRET=${{ secrets.CLOUDINARY_API_SECRET }}" >> .env
-
-            # Restart Docker Services
             sudo docker-compose down || true
             sudo docker-compose pull
             sudo docker-compose up -d
