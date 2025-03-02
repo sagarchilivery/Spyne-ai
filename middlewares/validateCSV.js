@@ -1,16 +1,25 @@
-// middlewares/validateCSV.js
+//  middlewares/validateCSV.js
 
 import csv from "csv-parser";
 import fs from "fs";
+import path from "path";
 
 const validateCSV = (req, res, next) => {
   if (!req.file) return res.status(400).json({ error: "No file uploaded" });
 
+  const filePath = req.file.path; // Store file path for deletion if needed
   const requiredHeaders = ["S. No.", "Product Name", "Input Image Urls"];
   const errors = [];
   let isValid = true;
 
-  fs.createReadStream(req.file.path)
+  const handleError = (message) => {
+    fs.unlink(filePath, (err) => {
+      if (err) console.error("Error deleting CSV:", err);
+    });
+    return res.status(400).json({ error: message, details: errors });
+  };
+
+  fs.createReadStream(filePath)
     .pipe(csv())
     .on("headers", (headers) => {
       const missingHeaders = requiredHeaders.filter(
@@ -45,13 +54,15 @@ const validateCSV = (req, res, next) => {
     })
     .on("end", () => {
       if (!isValid) {
-        return res
-          .status(400)
-          .json({ error: "Invalid CSV format", details: errors });
+        return handleError("Invalid CSV format");
       }
       next();
     })
     .on("error", (err) => {
+      console.error("Error processing CSV:", err.message);
+      fs.unlink(filePath, (unlinkErr) => {
+        if (unlinkErr) console.error("Error deleting CSV:", unlinkErr);
+      });
       res
         .status(500)
         .json({ error: "Error processing CSV", details: err.message });

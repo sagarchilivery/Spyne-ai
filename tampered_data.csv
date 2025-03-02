@@ -1,6 +1,0 @@
-S. No.,Product Name,Input Image Urls
-1,SKU1,"https://www.example.com/image1.jpg,https://www.example.com/image2.jpg"
-,SKU2,https://www.example.com/image3.jpg
-3,,"https://www.example.com/image5.jpg,https://www.example.com/image6.jpg"
-four,SKU4,
-5,SKU5,"not-a-valid-url,https://www.example.com/image10.jpg"

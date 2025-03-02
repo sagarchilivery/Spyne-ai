@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data  # Persistent Redis storage
+    restart: always
+    command: ["redis-server", "--save", "20", "1", "--loglevel", "warning"] 
+
+  backend:
+    image: sagar246/spyne-ai
+    container_name: backend
+    ports:
+      - "1337:1337"
+    depends_on:
+      - redis
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    restart: always
+
+volumes:
+  redis_data:  # Volume for Redis persistence
