@@ -51,7 +51,14 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            cd /home/ubuntu/spyne-ai  # Navigate to the project folder
-            sudo docker-compose down  # Stop existing containers
-            sudo docker-compose pull  # Pull the latest image from Docker Hub
-            sudo docker-compose up -d  # Restart the application
+            mkdir -p /home/ubuntu/spyne-ai  # Ensure directory exists
+            cd /home/ubuntu/spyne-ai
+            ls -la  # Debugging step to verify files
+            if [ -f "docker-compose.yml" ]; then
+              sudo docker-compose down
+              sudo docker-compose pull
+              sudo docker-compose up -d
+            else
+              echo "Error: docker-compose.yml not found!"
+              exit 1
+            fi
