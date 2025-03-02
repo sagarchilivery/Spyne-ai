@@ -50,6 +50,13 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
+            cd /home/ubuntu || exit
+            if [ ! -d "Spyne-ai" ]; then
+              git clone https://github.com/sagarchilivery/Spyne-ai.git Spyne-ai
+            else
+              cd Spyne-ai
+              git pull origin main
+            fi
             cd /home/ubuntu/Spyne-ai
             echo "MONGO_URI=${{ secrets.MONGO_URI }}" > .env
             echo "PORT=${{ secrets.PORT }}" >> .env
