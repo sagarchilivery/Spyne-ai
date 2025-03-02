@@ -19,7 +19,6 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-
         env:
           MONGO_URI: ${{ secrets.DB_URI }}
           PORT: ${{ secrets.PORT }}
@@ -44,21 +43,22 @@ jobs:
       - name: Verify the pushed docker image
         run: docker pull sagar246/spyne-ai:latest
 
-      - name: Deploy to EC2
+      - name: Deploy to EC2 
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            mkdir -p /home/ubuntu/spyne-ai  # Ensure directory exists
-            cd /home/ubuntu/spyne-ai
-            ls -la  # Debugging step to verify files
-            if [ -f "docker-compose.yml" ]; then
-              sudo docker-compose down
-              sudo docker-compose pull
-              sudo docker-compose up -d
+            cd /home/ubuntu || exit 1
+            if [ ! -d "spyne-ai" ]; then
+              git clone https://github.com/sagarchilivery/Spyne-ai.git spyne-ai
             else
-              echo "Error: docker-compose.yml not found!"
-              exit 1
+              cd spyne-ai
+              git pull origin main  # Pull latest changes
             fi
+            cd spyne-ai
+            ls -la  # Debugging: Check repo files
+            sudo docker-compose down || true
+            sudo docker-compose pull
+            sudo docker-compose up -d
