@@ -18,15 +18,8 @@ services:
       - "1337:1337"
     depends_on:
       - redis
-    environment:
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
-      - MONGO_URI=${MONGO_URI}
-      - PORT=${PORT}
-      - CLOUDINARY_CLOUD_NAME=${CLOUDINARY_CLOUD_NAME}
-      - CLOUDINARY_API_KEY=${CLOUDINARY_API_KEY}
-      - CLOUDINARY_API_SECRET=${CLOUDINARY_API_SECRET}
-
+    env_file:
+      - .env
     restart: always
 
 volumes:

@@ -50,12 +50,14 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: |
+            sudo mkdir -p /home/ubuntu/Spyne-ai
+            sudo chown ubuntu:ubuntu /home/ubuntu/Spyne-ai
             cd /home/ubuntu/Spyne-ai
-            echo "MONGO_URI=${{ secrets.MONGO_URI }}" > .env
-            echo "PORT=${{ secrets.PORT }}" >> .env
-            echo "CLOUDINARY_CLOUD_NAME=${{ secrets.CLOUDINARY_CLOUD_NAME }}" >> .env
-            echo "CLOUDINARY_API_KEY=${{ secrets.CLOUDINARY_API_KEY }}" >> .env
-            echo "CLOUDINARY_API_SECRET=${{ secrets.CLOUDINARY_API_SECRET }}" >> .env
+            echo "MONGO_URI=${{ secrets.MONGO_URI }}" | sudo tee .env
+            echo "PORT=${{ secrets.PORT }}" | sudo tee -a .env
+            echo "CLOUDINARY_CLOUD_NAME=${{ secrets.CLOUDINARY_CLOUD_NAME }}" | sudo tee -a .env
+            echo "CLOUDINARY_API_KEY=${{ secrets.CLOUDINARY_API_KEY }}" | sudo tee -a .env
+            echo "CLOUDINARY_API_SECRET=${{ secrets.CLOUDINARY_API_SECRET }}" | sudo tee -a .env
             sudo docker-compose down || true
             sudo docker-compose pull
             sudo docker-compose up -d
