@@ -51,7 +51,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             cd /home/ubuntu || exit 1
-            if [ ! -d "spyne-ai" ]; then
+            if [ ! -d "Spyne-ai" ]; then
               git clone https://github.com/sagarchilivery/Spyne-ai.git
             else
               cd Spyne-ai
