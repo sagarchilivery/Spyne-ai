@@ -23,7 +23,7 @@ app.use(helmet());
 app.get("/health", (req, res) => {
   res.send("OK");
 });
-app.use("/", myRouter);
+app.use("/api/v1", myRouter);
 
 console.log("process.env.MONGO_URI: ", process.env.MONGO_URI);
 mongoose
