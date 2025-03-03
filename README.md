@@ -153,13 +153,6 @@ Content-Type: multipart/form-data
 - `404 Not Found` if the request ID is not found.
 - `500 Internal Server Error` if there is a server error.
 
-## Running Tests
-
-To run tests, use:
-
-```sh
-npm test
-```
 
 ## License
 
