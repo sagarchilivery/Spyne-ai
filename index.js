@@ -20,7 +20,7 @@ app.use(
 );
 app.use(helmet());
 
-app.get("/health", (req, res) => {
+app.get("/api/v1/health", (req, res) => {
   res.send("OK");
 });
 app.use("/api/v1", myRouter);
