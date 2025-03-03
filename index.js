@@ -20,10 +20,10 @@ app.use(
 );
 app.use(helmet());
 
-app.get("/api/v1/health", (req, res) => {
+app.get("/health", (req, res) => {
   res.send("OK");
 });
-app.use("/api/v1", myRouter);
+app.use("/", myRouter);
 
 console.log("process.env.MONGO_URI: ", process.env.MONGO_URI);
 mongoose
